@@ -1,0 +1,16 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'pe.edu.bosquealerta'
+    compileSdk 36
+    defaultConfig { applicationId 'pe.edu.bosquealerta'; minSdk 28; targetSdk 35; versionCode 1; versionName '1.0' }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    androidResources { noCompress += 'tflite' }
+}
+tasks.matching { it.name == 'preBuild' }.configureEach {
+    doFirst {
+        if (!file('src/main/assets/bosque_alerta.tflite').exists()) {
+            throw new GradleException('Modelo ausente. Ejecutar entrenamiento/entrenar.py antes de compilar.')
+        }
+    }
+}
+dependencies { implementation 'org.tensorflow:tensorflow-lite:2.17.0' }

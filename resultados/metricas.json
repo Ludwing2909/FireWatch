@@ -1,0 +1,51 @@
+{
+  "sin_fuego": {
+    "precision": 0.8571428571428571,
+    "recall": 0.972972972972973,
+    "f1-score": 0.9113924050632911,
+    "support": 37.0
+  },
+  "fuego": {
+    "precision": 0.9902912621359223,
+    "recall": 0.9444444444444444,
+    "f1-score": 0.966824644549763,
+    "support": 108.0
+  },
+  "accuracy": 0.9517241379310345,
+  "macro avg": {
+    "precision": 0.9237170596393898,
+    "recall": 0.9587087087087087,
+    "f1-score": 0.9391085248065271,
+    "support": 145.0
+  },
+  "weighted avg": {
+    "precision": 0.9563154622411403,
+    "recall": 0.9517241379310345,
+    "f1-score": 0.9526798661980426,
+    "support": 145.0
+  },
+  "confusion_matrix": [
+    [
+      36,
+      1
+    ],
+    [
+      6,
+      102
+    ]
+  ],
+  "roc_auc": 0.9902402402402403,
+  "threshold": 0.5,
+  "seed": 42,
+  "size": 96,
+  "split_counts": {
+    "train": 672,
+    "validation": 144,
+    "test": 145
+  },
+  "epochs_executed": 13,
+  "tensorflow": "2.16.1",
+  "parameters": 613537,
+  "tflite_max_absolute_error": 3.5762786865234375e-07,
+  "tflite_prediction_agreement": 1.0
+}

@@ -1,0 +1,10 @@
+.venv/
+.tools/
+__pycache__/
+apk/.gradle/
+apk/.android/
+apk/local.properties
+apk/**/build/
+dataset/original/
+dataset/*.zip
+dataset/*.part

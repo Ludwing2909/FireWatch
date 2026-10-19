@@ -1,0 +1,12 @@
+{
+  "dataset/procedencia.json": "5cb9ac15a995f34afb15bf37e62e26dedbfab72e591b60e69b923a6a8432780f",
+  "modelos/bosque_alerta.keras": "4eb2f9323ec4aa27819a0cfd1ea1a6b558bb9f5189847feea9d5725083ec9f79",
+  "modelos/bosque_alerta.tflite": "f045f36702ba7c963e5644282551990cffa6a6b2e7ff23ac96729bbf35f85c3c",
+  "resultados/metricas.json": "a3571e2740c17192c77a517cf86fde2604f025e1e0f8827249c8b36ae86ed332",
+  "resultados/particiones.csv": "335a200c58f8c75c01a8d067f2dcc477adcc2bbe774251f0fee150d3ca192f65",
+  "cuadernos/01_exploracion.ipynb": "d1050b56a9d3e9c88de15ad59c4dcb123f6545b2a4f53b6c437838fa0006886b",
+  "cuadernos/02_entrenamiento_evaluacion.ipynb": "549723bfeba33354e82ba6320ed2bafb9060b00c69d97f4edebaeec335d93ae1",
+  "apk/entregables/BosqueAlerta-debug.apk": "7e18302f197945dded402385fa7b4b4cfb7b6821e004939b7b1dd633c3812b1c",
+  "informe/Informe_Bosque_Alerta.pdf": "f7521d5669dd193cfe8e6a1ce99d02b01581d59808f21afb0ac33d9364ec2d85",
+  "informe/Informe_Bosque_Alerta.md": "053501883dd1c4ffbf6ecb175168e41a5978881be3605328bf0d14aa78f30149"
+}
