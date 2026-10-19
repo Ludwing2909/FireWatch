@@ -202,3 +202,15 @@ adb install -r apk/entregables/BosqueAlerta-debug.apk
 | `Permission denied` en `gradlew` | `chmod +x apk/gradlew` o invócalo con `sh apk/gradlew` |
 | `adb: device not found` | Activa depuración USB y acepta el aviso en el teléfono |
 | Ruta con espacios da error en scripts | Siempre entrecomilla la ruta completa |
+
+## Compilar la revisión 1.5 en Windows
+
+Requiere un JDK completo (recomendado 21; debe incluir `jlink`) y Android SDK 36.
+
+```powershell
+./apk/compilar.ps1 -Jdk "C:/ruta/al/jdk-21" -AndroidSdk "C:/ruta/al/Android/Sdk"
+python herramientas/verificar_entrega.py
+python herramientas/empaquetar.py
+```
+
+El script ejecuta compilación y lint antes de reemplazar el APK. El runtime Android actual es LiteRT 1.4.2, con la API Interpreter compatible con el modelo TFLite incluido. Ver `VALIDACION_ENTREGA.md` para las pruebas realizadas.

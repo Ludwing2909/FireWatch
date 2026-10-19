@@ -29,6 +29,7 @@ public class FireOverlayView extends View {
     private int bmpH;
     private float density;
 
+    private final RectF rect = new RectF();
     private final Paint gridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint thinPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -110,7 +111,6 @@ public class FireOverlayView extends View {
             canvas.drawLine(dx, y, dx + frameW, y, gridPaint);
         }
 
-        RectF rect = new RectF();
         for (Box b : boxes) {
             float l = dx + b.left * scale;
             float t = dy + b.top * scale;
@@ -138,7 +138,7 @@ public class FireOverlayView extends View {
             canvas.drawLine(cx - ch, cy, cx + ch, cy, crossPaint);
             canvas.drawLine(cx, cy - ch, cx, cy + ch, crossPaint);
 
-            String label = String.format(Locale.getDefault(), "FUEGO %.0f%%", b.score * 100);
+            String label = String.format(Locale.getDefault(), "Zona %.0f%%", b.score * 100);
             float textW = labelText.measureText(label);
             float padH = 8 * density;
             float boxH = labelText.getTextSize() + 10 * density;

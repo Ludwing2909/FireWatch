@@ -25,17 +25,12 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.tensorflow.lite.Interpreter;
 
 /** Modo en vivo: analiza la cámara por zonas y sigue las zonas con fuego. */
 public class LiveActivity extends ComponentActivity {
@@ -52,7 +47,7 @@ public class LiveActivity extends ComponentActivity {
 
     private final ExecutorService analyzer = Executors.newSingleThreadExecutor();
     private final List<Track> tracks = new ArrayList<>();
-    private Interpreter model;
+    private FireClassifier model;
     private ProcessCameraProvider cameraProvider;
 
     private long lastAnalyzeAt;
@@ -68,6 +63,7 @@ public class LiveActivity extends ComponentActivity {
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_live);
+        WindowInsetsHelper.apply(findViewById(R.id.liveRoot));
         getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         previewView = findViewById(R.id.previewView);
@@ -82,25 +78,13 @@ public class LiveActivity extends ComponentActivity {
             return;
         }
         try {
-            loadModel();
+            model = new FireClassifier(this);
         } catch (Exception e) {
             Toast.makeText(this, "No se pudo cargar el modelo: " + e.getMessage(), Toast.LENGTH_LONG).show();
             finish();
             return;
         }
         startCamera();
-    }
-
-    private void loadModel() throws Exception {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        try (InputStream in = getAssets().open("bosque_alerta.tflite")) {
-            byte[] b = new byte[8192];
-            int n;
-            while ((n = in.read(b)) != -1) bytes.write(b, 0, n);
-        }
-        ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.size()).order(ByteOrder.nativeOrder());
-        buffer.put(bytes.toByteArray()).rewind();
-        model = new Interpreter(buffer, new Interpreter.Options().setNumThreads(2));
     }
 
     private ResolutionSelector resolution() {
@@ -114,6 +98,7 @@ public class LiveActivity extends ComponentActivity {
     private void startCamera() {
         ProcessCameraProvider.getInstance(this).addListener(() -> {
             try {
+                if (isFinishing() || isDestroyed()) return;
                 cameraProvider = ProcessCameraProvider.getInstance(this).get();
                 Preview preview = new Preview.Builder()
                         .setResolutionSelector(resolution())
@@ -152,13 +137,15 @@ public class LiveActivity extends ComponentActivity {
                 bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), m, true);
             }
 
-            float global = score(bmp);
+            float global = model.score(bmp);
             float[] cells = new float[GRID * GRID];
             int tw = bmp.getWidth() / GRID;
             int th = bmp.getHeight() / GRID;
             for (int r = 0; r < GRID; r++) {
                 for (int c = 0; c < GRID; c++) {
-                    cells[r * GRID + c] = score(Bitmap.createBitmap(bmp, c * tw, r * th, tw, th));
+                    Bitmap tile = Bitmap.createBitmap(bmp, c * tw, r * th, tw, th);
+                    cells[r * GRID + c] = model.score(tile);
+                    tile.recycle();
                 }
             }
 
@@ -185,14 +172,14 @@ public class LiveActivity extends ComponentActivity {
                 overlay.setBoxes(follow, w, h);
                 boolean fire = g >= FIRE_THRESHOLD || zoneCount > 0;
                 if (fire) {
-                    statusChip.setText(String.format(Locale.getDefault(), "🔥 FUEGO · %.0f%% · %d zona%s", g * 100, zoneCount, zoneCount == 1 ? "" : "s"));
-                    statusChip.setBackgroundColor(0xE0D9480F);
+                    statusChip.setText(String.format(Locale.getDefault(), "Exploración · %d zona%s", zoneCount, zoneCount == 1 ? "" : "s"));
+                    statusChip.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF9D3618));
                 } else {
-                    statusChip.setText(String.format(Locale.getDefault(), "Sin fuego · %.0f%%", g * 100));
-                    statusChip.setBackgroundColor(0xCC157347);
+                    statusChip.setText(String.format(Locale.getDefault(), "Sin fuego · puntaje fuego %.0f%%", g * 100));
+                    statusChip.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF006A63));
                 }
                 stats.setText(String.format(Locale.getDefault(),
-                        "Seguimiento: %.1f fps · %d zona%s · Umbral 60 %%", f, zoneCount, zoneCount == 1 ? "" : "s"));
+                        "Puntaje global de fuego: %.0f %% · %.1f cuadros/s", g * 100, f));
             });
         } catch (Exception e) {
             Log.w(TAG, "Cuadro omitido: " + e);
@@ -205,7 +192,7 @@ public class LiveActivity extends ComponentActivity {
     private List<FireOverlayView.Box> updateTracks(float[] cells, int tw, int th) {
         List<float[]> detections = connectedComponents(cells);
 
-        boolean[] trackUpdated = new boolean[tracks.size()];
+
         for (int i = 0; i < tracks.size(); i++) {
             Track track = tracks.get(i);
             int best = -1;
@@ -227,7 +214,6 @@ public class LiveActivity extends ComponentActivity {
                 track.score = track.score * 0.5f + d[4] * 0.5f;
                 track.age++;
                 track.missed = 0;
-                trackUpdated[i] = true;
                 detections.remove(best);
             } else {
                 track.missed++;
@@ -254,10 +240,10 @@ public class LiveActivity extends ComponentActivity {
         for (Track track : tracks) {
             if (track.age < 2 || track.score < 0.5f) continue;
             FireOverlayView.Box box = new FireOverlayView.Box();
-            box.left = track.left;
-            box.top = track.top;
-            box.right = track.right;
-            box.bottom = track.bottom;
+            box.left = track.left * tw;
+            box.top = track.top * th;
+            box.right = track.right * tw;
+            box.bottom = track.bottom * th;
             box.score = Math.min(1f, track.score);
             out.add(box);
         }
@@ -315,26 +301,10 @@ public class LiveActivity extends ComponentActivity {
         return inter / (areaA + areaB - inter);
     }
 
-    private float score(Bitmap image) {
-        Bitmap resized = Bitmap.createScaledBitmap(image, 96, 96, true);
-        ByteBuffer input = ByteBuffer.allocateDirect(96 * 96 * 3 * 4).order(ByteOrder.nativeOrder());
-        int[] pixels = new int[96 * 96];
-        resized.getPixels(pixels, 0, 96, 0, 0, 96, 96);
-        for (int px : pixels) {
-            input.putFloat(Color.red(px) / 255f);
-            input.putFloat(Color.green(px) / 255f);
-            input.putFloat(Color.blue(px) / 255f);
-        }
-        input.rewind();
-        float[][] output = new float[1][1];
-        model.run(input, output);
-        return output[0][0];
-    }
-
     @Override protected void onDestroy() {
         if (cameraProvider != null) cameraProvider.unbindAll();
-        analyzer.shutdownNow();
-        if (model != null) model.close();
+        analyzer.execute(() -> { if (model != null) model.close(); });
+        analyzer.shutdown();
         super.onDestroy();
     }
 }

@@ -56,3 +56,9 @@ Ahmed Saied, FIRE Dataset, versión 1: https://www.kaggle.com/datasets/phylake13
 3. Integrante 3: Android, pruebas en teléfono y demostración.
 
 Los tres revisan el informe, entienden las limitaciones y realizan la exposición. Completar nombres, docente, curso y fecha de entrega en el informe.
+
+## Revisión de interfaz 1.5
+
+Diseño adaptado de la referencia IgnisCare, icono vectorial propio y pantallas desplazables. La cámara solicita permiso al utilizarla; la galería usa el selector del sistema sin acceso global a imágenes. La inferencia compartida reside en `FireClassifier.java`.
+
+Ver `REVISION_PROYECTO.md` para la evaluación de estructura y pendientes, `VALIDACION_ENTREGA.md` para comprobaciones y `apk/PRUEBAS_MANUALES.md` para pruebas en dispositivo. Las cajas del modo en vivo son una exploración experimental de recortes, no localización validada de llamas.

@@ -8,3 +8,7 @@ apk/**/build/
 dataset/original/
 dataset/*.zip
 dataset/*.part
+
+entrega/
+*.jks
+*.keystore

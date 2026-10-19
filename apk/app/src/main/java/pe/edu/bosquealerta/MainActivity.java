@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -25,18 +24,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.tensorflow.lite.Interpreter;
 
 /** Todo el procesamiento ocurre localmente. Entrada RGB float32 [1,96,96,3] / 255. */
 public class MainActivity extends Activity {
@@ -44,7 +38,6 @@ public class MainActivity extends Activity {
     private static final int REQ_CAMERA = 11;
     private static final int REQ_LIVE_PERMISSION = 20;
     private static final int REQ_PERM_CAMERA_SHOT = 21;
-    private static final int REQ_PERM_GALLERY = 22;
 
     private static final int COLOR_IDLE = 0xFFEAF1EC;
     private static final int COLOR_BUSY = 0xFFFFF1E4;
@@ -62,7 +55,7 @@ public class MainActivity extends Activity {
     private MaterialButton liveBtn;
 
     private final ExecutorService worker = Executors.newSingleThreadExecutor();
-    private Interpreter model;
+    private FireClassifier model;
     private boolean busy;
     private boolean closing;
     private File pendingPhoto;
@@ -70,6 +63,13 @@ public class MainActivity extends Activity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
+        WindowInsetsHelper.apply(findViewById(R.id.root));
+        if (state != null && state.getString("pendingPhoto") != null)
+            pendingPhoto = new File(state.getString("pendingPhoto"));
+        findViewById(R.id.aboutBtn).setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
+            .setTitle("Análisis local, alcance limitado")
+            .setMessage("La red neuronal clasifica imágenes como fuego o sin fuego. Su puntaje no es una probabilidad calibrada. Las cajas del modo en vivo son una exploración por recortes, no un detector de objetos validado.\n\nLa cámara se solicita únicamente cuando la utilizas. La galería permite elegir un archivo sin dar acceso a todas tus fotos. No enviamos imágenes ni solicitamos ubicación, micrófono o contactos.")
+            .setPositiveButton("Entendido", null).show());
 
         preview = findViewById(R.id.preview);
         placeholder = findViewById(R.id.placeholder);
@@ -82,22 +82,14 @@ public class MainActivity extends Activity {
         liveBtn = findViewById(R.id.liveBtn);
 
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            try (InputStream in = getAssets().open("bosque_alerta.tflite")) {
-                byte[] b = new byte[8192];
-                int n;
-                while ((n = in.read(b)) != -1) bytes.write(b, 0, n);
-            }
-            ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.size()).order(ByteOrder.nativeOrder());
-            buffer.put(bytes.toByteArray()).rewind();
-            model = new Interpreter(buffer, new Interpreter.Options().setNumThreads(2));
+            model = new FireClassifier(this);
         } catch (Exception e) {
             showError("No se pudo cargar el modelo: " + e.getMessage());
             setButtonsEnabled(false);
         }
 
         cameraBtn.setOnClickListener(v -> requestCameraThen(this::openCamera, REQ_PERM_CAMERA_SHOT, "la cámara para tomar una fotografía"));
-        galleryBtn.setOnClickListener(v -> requestGalleryThen(this::openGallery));
+        galleryBtn.setOnClickListener(v -> openGallery());
         liveBtn.setOnClickListener(v -> requestCameraThen(this::openLive, REQ_LIVE_PERMISSION, "la cámara para el modo en tiempo real"));
     }
 
@@ -109,17 +101,22 @@ public class MainActivity extends Activity {
         return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    private String galleryPermission() {
-        return Build.VERSION.SDK_INT >= 33
-                ? "android.permission.READ_MEDIA_IMAGES"
-                : Manifest.permission.READ_EXTERNAL_STORAGE;
-    }
 
     private void requestCameraThen(Runnable action, int requestCode, String feature) {
         if (granted(Manifest.permission.CAMERA)) {
             action.run();
             return;
         }
+        boolean asked = getPreferences(MODE_PRIVATE).getBoolean("askedCamera", false);
+        if (asked && !shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            new MaterialAlertDialogBuilder(this).setTitle("Acceso a la cámara desactivado")
+                .setMessage("Puedes habilitar Cámara en los permisos de Bosque Alerta. La galería sigue disponible.")
+                .setPositiveButton("Abrir ajustes", (d, w) -> startActivity(new Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", getPackageName(), null))))
+                .setNegativeButton("Ahora no", null).show();
+            return;
+        }
+        getPreferences(MODE_PRIVATE).edit().putBoolean("askedCamera", true).apply();
         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
             showPermissionDialog("Permiso de cámara",
                     "Para usar " + feature + ", la app necesita acceso a la cámara. Concede el permiso para continuar.",
@@ -129,20 +126,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void requestGalleryThen(Runnable action) {
-        String permission = galleryPermission();
-        if (granted(permission)) {
-            action.run();
-            return;
-        }
-        if (shouldShowRequestPermissionRationale(permission)) {
-            showPermissionDialog("Permiso de galería",
-                    "Para elegir una fotografía, la app necesita acceso a tus imágenes. Concede el permiso para continuar.",
-                    () -> requestPermissions(new String[]{permission}, REQ_PERM_GALLERY));
-        } else {
-            requestPermissions(new String[]{permission}, REQ_PERM_GALLERY);
-        }
-    }
 
     private void showPermissionDialog(String title, String message, Runnable retry) {
         new MaterialAlertDialogBuilder(this)
@@ -165,21 +148,13 @@ public class MainActivity extends Activity {
             if (ok) {
                 startActivity(new Intent(this, LiveActivity.class));
             } else {
-                showPermissionDialog("Permiso necesario",
-                        "El modo en tiempo real no puede funcionar sin acceso a la cámara.",
-                        () -> requestPermissions(new String[]{Manifest.permission.CAMERA}, REQ_LIVE_PERMISSION));
+                showError("Cámara no autorizada. Puedes usar la galería o volver a intentar abrir la cámara.");
             }
         } else if (request == REQ_PERM_CAMERA_SHOT) {
             if (ok) {
                 openCamera();
             } else {
                 showError("Se necesita el permiso de cámara para tomar una fotografía.");
-            }
-        } else if (request == REQ_PERM_GALLERY) {
-            if (ok) {
-                openGallery();
-            } else {
-                showError("Se necesita el permiso de galería para elegir una imagen.");
             }
         }
     }
@@ -246,7 +221,7 @@ public class MainActivity extends Activity {
         worker.execute(() -> {
             try {
                 Bitmap image = decodeCapped(source);
-                float p = classify(image);
+                float p = model.score(image);
                 runOnUiThread(() -> { if (!closing) showResult(image, p); });
             } catch (Exception e) {
                 runOnUiThread(() -> { if (!closing) showError("No se pudo analizar la imagen. Prueba con otra fotografía."); });
@@ -265,22 +240,6 @@ public class MainActivity extends Activity {
         });
     }
 
-    private float classify(Bitmap image) {
-        Bitmap resized = Bitmap.createScaledBitmap(image, 96, 96, true);
-        ByteBuffer input = ByteBuffer.allocateDirect(96 * 96 * 3 * 4).order(ByteOrder.nativeOrder());
-        int[] pixels = new int[96 * 96];
-        resized.getPixels(pixels, 0, 96, 0, 0, 96, 96);
-        for (int px : pixels) {
-            input.putFloat(Color.red(px) / 255f);
-            input.putFloat(Color.green(px) / 255f);
-            input.putFloat(Color.blue(px) / 255f);
-        }
-        input.rewind();
-        float[][] output = new float[1][1];
-        model.run(input, output);
-        return output[0][0];
-    }
-
     private void showResult(Bitmap image, float p) {
         busy = false;
         progress.setVisibility(View.GONE);
@@ -290,9 +249,9 @@ public class MainActivity extends Activity {
         boolean fire = p >= .5f;
         resultCard.setCardBackgroundColor(fire ? COLOR_FIRE : COLOR_OK);
         resultTitle.setTextColor(Color.WHITE);
-        resultTitle.setText(fire ? "🔥 FUEGO" : "🌿 SIN FUEGO");
+        resultTitle.setText(fire ? "Indicios de fuego" : "Clasificación: sin fuego");
         resultHint.setTextColor(0xE6FFFFFF);
-        resultHint.setText(String.format(Locale.getDefault(), "Puntaje de fuego: %.1f %%", p * 100));
+        resultHint.setText(String.format(Locale.getDefault(), "Puntaje de fuego: %.1f %% · No confirma seguridad", p * 100));
         setButtonsEnabled(true);
     }
 
@@ -309,8 +268,14 @@ public class MainActivity extends Activity {
     }
 
     private void setButtonsEnabled(boolean enabled) {
-        cameraBtn.setEnabled(enabled);
-        galleryBtn.setEnabled(enabled);
+        cameraBtn.setEnabled(enabled && model != null);
+        galleryBtn.setEnabled(enabled && model != null);
+        liveBtn.setEnabled(enabled && model != null);
+    }
+
+    @Override protected void onSaveInstanceState(Bundle out) {
+        super.onSaveInstanceState(out);
+        if (pendingPhoto != null) out.putString("pendingPhoto", pendingPhoto.getAbsolutePath());
     }
 
     @Override protected void onDestroy() {

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="activity_main_contentdescription_1">Bosque Alerta, bosque y llama bajo un escudo</string>
+    <string name="activity_main_text_2">Bosque Alerta</string>
+    <string name="activity_main_text_3">OBSERVA · APRENDE · CUIDA</string>
+    <string name="activity_main_text_4">INTELIGENCIA ARTIFICIAL EN TU DISPOSITIVO</string>
+    <string name="activity_main_text_5">Una mirada más para cuidar el bosque.</string>
+    <string name="activity_main_text_6">Analiza una fotografía e identifica indicios visuales de fuego.</string>
+    <string name="activity_main_text_7">Sin conexión  ·  Tus imágenes se quedan contigo</string>
+    <string name="activity_main_text_8">Explora tu imagen</string>
+    <string name="activity_main_contentdescription_9">Fotografía seleccionada para analizar</string>
+    <string name="activity_main_text_10">Todo empieza con una imagen</string>
+    <string name="activity_main_text_11">Toma una foto o elige una de tu galería.</string>
+    <string name="activity_main_contentdescription_12">Analizando imagen</string>
+    <string name="activity_main_text_13">Listo para analizar</string>
+    <string name="activity_main_text_14">Selecciona una imagen para ver el resultado.</string>
+    <string name="activity_main_text_15">Tomar fotografía</string>
+    <string name="activity_main_text_16">Elegir de la galería</string>
+    <string name="activity_main_text_17">Observa en directo</string>
+    <string name="activity_main_text_18">Explora el análisis de la cámara. Las zonas resaltadas son estimaciones experimentales.</string>
+    <string name="activity_main_text_19">Abrir cámara en vivo</string>
+    <string name="activity_main_text_20">Conoce el alcance</string>
+    <string name="activity_main_text_21">Prototipo académico de clasificación: fuego / sin fuego. Puede equivocarse. El resultado no confirma que un entorno sea seguro ni sustituye una alerta oficial.</string>
+    <string name="activity_main_text_22">Cómo funciona y privacidad</string>
+    <string name="activity_main_text_23">BOSQUE ALERTA  /  PROYECTO ACADÉMICO</string>
+    <string name="activity_live_text_1">ANÁLISIS EN DIRECTO</string>
+    <string name="activity_live_text_2">Iniciando cámara…</string>
+    <string name="activity_live_text_3">Las zonas resaltadas son estimaciones experimentales.\nEste modelo no fue entrenado para localizar llamas.</string>
+    <string name="activity_live_text_4">Preparando análisis…</string>
+    <string name="activity_live_text_5">Cerrar cámara</string>
+</resources>

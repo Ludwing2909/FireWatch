@@ -12,7 +12,7 @@ def main():
             for name in files:
                 path=Path(folder)/name
                 rel=path.relative_to(ROOT)
-                if path.name=='local.properties': continue
+                if path.name=='local.properties' or path.suffix.lower() in {'.jks', '.keystore'}: continue
                 z.write(path,Path('BosqueAlerta')/rel,compress_type=zipfile.ZIP_STORED if path.suffix.lower() in {'.zip','.apk','.keras','.png'} else zipfile.ZIP_DEFLATED)
     print(target, f'{target.stat().st_size/1024**2:.1f} MB')
 if __name__=='__main__': main()

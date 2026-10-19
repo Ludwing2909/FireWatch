@@ -1,0 +1,5 @@
+<resources>
+<style name="Text.Body" parent=""><item name="android:layout_width">match_parent</item><item name="android:layout_height">wrap_content</item><item name="android:textSize">14sp</item><item name="android:textColor">@color/muted</item><item name="android:lineSpacingExtra">4dp</item></style>
+<style name="Text.Heading" parent="Text.Body"><item name="android:textSize">22sp</item><item name="android:textColor">@color/text_dark</item><item name="android:textStyle">bold</item><item name="android:fontFamily">sans-serif-medium</item></style>
+<style name="Action" parent="Widget.Material3.Button"><item name="android:layout_width">match_parent</item><item name="android:layout_height">wrap_content</item><item name="android:minHeight">56dp</item><item name="android:textAllCaps">false</item><item name="android:textSize">15sp</item><item name="cornerRadius">28dp</item><item name="android:paddingTop">12dp</item><item name="android:paddingBottom">12dp</item></style>
+</resources>
