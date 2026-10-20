@@ -1,0 +1,326 @@
+{
+  "exact_duplicates": [
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_149.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/daytime/daylight_894.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_15.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_1009.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_199.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_1005.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_395.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_1026.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_556.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_283.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_557.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_53.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_574.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_235.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_576.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_117.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_596.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_113.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_606.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_384.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_616.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_397.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_620.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_286.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_635.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_311.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_644.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_405.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_647.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_358.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_674.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_301.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_678.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_257.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_688.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_105.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_698.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_386.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_710.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_114.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_766.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_275.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_771.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_477.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_787.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_461.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_809.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_318.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_810.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_481.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_82.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_569.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_826.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_151.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_832.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_355.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_840.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_394.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_847.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_404.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_859.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_21.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_869.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_429.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_886.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_209.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_906.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_445.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_910.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_307.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_919.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_233.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_934.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_203.jpeg"
+    },
+    {
+      "path": "dataset\\complementario\\time_of_day\\original\\sunrise\\sunrise_966.jpeg",
+      "kept": "dataset/complementario/time_of_day/original/sunrise/sunrise_321.jpeg"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.339.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.29.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.400.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.19.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.413.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.333.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.416.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.341.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.424.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.29.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.427.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.402.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.430.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.334.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.431.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.361.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.438.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.283.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.442.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.330.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.448.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.372.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.453.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.277.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.454.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.410.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.456.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.401.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.457.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.26.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.458.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.345.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.463.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.365.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.480.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.337.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.489.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.14.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.578.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.541.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.580.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.451.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.582.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.352.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.587.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.4.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.603.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.268.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.609.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.261.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.627.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.405.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.632.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.385.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.645.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.46.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.655.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.399.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.669.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.3.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.67.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.496.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.686.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.12.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.695.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.141.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.719.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.381.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.749.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.534.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.755.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.347.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.87.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.541.png"
+    },
+    {
+      "path": "dataset\\original\\fire_dataset\\fire_images\\fire.94.png",
+      "kept": "dataset/original/fire_dataset/fire_images/fire.711.png"
+    }
+  ],
+  "invalid": [],
+  "reference_similar_excluded": [
+    "dataset/original/fire_dataset/fire_images/fire.304.png"
+  ],
+  "valid_unique": 8383,
+  "groups": 8368,
+  "group_similarity": 0.985,
+  "reference_exclusion_similarity": 0.97,
+  "counts": {
+    "train": 5864,
+    "validation": 1258,
+    "test": 1261
+  },
+  "sources": {
+    "fire_dataset": 960,
+    "forest_fire_c4": 4800,
+    "time_of_day": 2623
+  }
+}

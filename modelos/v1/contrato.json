@@ -1,0 +1,17 @@
+{
+  "input": [
+    1,
+    96,
+    96,
+    3
+  ],
+  "dtype": "float32",
+  "normalization": "RGB / 255.0",
+  "resize": "bilinear stretch",
+  "output": "P(fuego), sigmoid",
+  "threshold": 0.5,
+  "labels": {
+    "0": "sin_fuego",
+    "1": "fuego"
+  }
+}

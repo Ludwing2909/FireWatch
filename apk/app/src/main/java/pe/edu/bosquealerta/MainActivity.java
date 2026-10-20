@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-/** Todo el procesamiento ocurre localmente. Entrada RGB float32 [1,96,96,3] / 255. */
+/** Inferencia local de fuego y humo con exploración de regiones. */
 public class MainActivity extends Activity {
     private static final int REQ_GALLERY = 10;
     private static final int REQ_CAMERA = 11;
@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
 
     private TextView resultTitle;
     private TextView resultHint;
+    private TextView resultScores;
     private ImageView preview;
     private View placeholder;
     private ProgressBar progress;
@@ -68,7 +69,7 @@ public class MainActivity extends Activity {
             pendingPhoto = new File(state.getString("pendingPhoto"));
         findViewById(R.id.aboutBtn).setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
             .setTitle("Análisis local, alcance limitado")
-            .setMessage("La red neuronal clasifica imágenes como fuego o sin fuego. Su puntaje no es una probabilidad calibrada. Las cajas del modo en vivo son una exploración por recortes, no un detector de objetos validado.\n\nLa cámara se solicita únicamente cuando la utilizas. La galería permite elegir un archivo sin dar acceso a todas tus fotos. No enviamos imágenes ni solicitamos ubicación, micrófono o contactos.")
+            .setMessage("La CNN analiza por separado características visuales de fuego y humo. Explora la imagen completa y recortes para encontrar señales pequeñas. Un resultado localizado describe zonas de la foto, no la intensidad ni la gravedad de un incendio. Puede confundir niebla, nubes y luces. Las cajas en vivo son recortes experimentales, no contornos de objetos validados.\n\nLa cámara se solicita únicamente cuando la utilizas. La galería permite elegir un archivo sin dar acceso a todas tus fotos. No enviamos imágenes ni solicitamos ubicación, micrófono o contactos.")
             .setPositiveButton("Entendido", null).show());
 
         preview = findViewById(R.id.preview);
@@ -77,6 +78,7 @@ public class MainActivity extends Activity {
         resultCard = findViewById(R.id.resultCard);
         resultTitle = findViewById(R.id.resultTitle);
         resultHint = findViewById(R.id.resultHint);
+        resultScores = findViewById(R.id.resultScores);
         cameraBtn = findViewById(R.id.cameraBtn);
         galleryBtn = findViewById(R.id.galleryBtn);
         liveBtn = findViewById(R.id.liveBtn);
@@ -215,14 +217,15 @@ public class MainActivity extends Activity {
         resultCard.setCardBackgroundColor(COLOR_BUSY);
         resultTitle.setTextColor(Color.rgb(130, 75, 20));
         resultTitle.setText("ANALIZANDO…");
+        resultScores.setVisibility(View.GONE);
         resultHint.setTextColor(Color.rgb(145, 100, 55));
         resultHint.setText("Procesando la imagen con el modelo CNN en el dispositivo");
 
         worker.execute(() -> {
             try {
                 Bitmap image = decodeCapped(source);
-                float p = model.score(image);
-                runOnUiThread(() -> { if (!closing) showResult(image, p); });
+                FireClassifier.Analysis analysis = model.analyze(image);
+                runOnUiThread(() -> { if (!closing) showResult(image, analysis); });
             } catch (Exception e) {
                 runOnUiThread(() -> { if (!closing) showError("No se pudo analizar la imagen. Prueba con otra fotografía."); });
             }
@@ -240,18 +243,20 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void showResult(Bitmap image, float p) {
+    private void showResult(Bitmap image, FireClassifier.Analysis analysis) {
         busy = false;
         progress.setVisibility(View.GONE);
         preview.setImageBitmap(image);
         preview.setVisibility(View.VISIBLE);
         placeholder.setVisibility(View.GONE);
-        boolean fire = p >= .5f;
-        resultCard.setCardBackgroundColor(fire ? COLOR_FIRE : COLOR_OK);
+        boolean warning = analysis.fire || analysis.smoke || analysis.uncertain;
+        resultCard.setCardBackgroundColor(analysis.fire ? COLOR_FIRE : warning ? 0xFF856015 : COLOR_OK);
         resultTitle.setTextColor(Color.WHITE);
-        resultTitle.setText(fire ? "Indicios de fuego" : "Clasificación: sin fuego");
+        resultTitle.setText(analysis.title());
+        resultScores.setText(getString(R.string.model_scores, analysis.fireScore * 100, analysis.smokeScore * 100));
+        resultScores.setVisibility(View.VISIBLE);
         resultHint.setTextColor(0xE6FFFFFF);
-        resultHint.setText(String.format(Locale.getDefault(), "Puntaje de fuego: %.1f %% · No confirma seguridad", p * 100));
+        resultHint.setText(getString(R.string.model_result_explanation, analysis.description(), getString(R.string.model_scores_caption)));
         setButtonsEnabled(true);
     }
 
@@ -262,6 +267,7 @@ public class MainActivity extends Activity {
         resultCard.setCardBackgroundColor(COLOR_IDLE);
         resultTitle.setTextColor(getResources().getColor(R.color.primary_dark, getTheme()));
         resultTitle.setText("AVISO");
+        resultScores.setVisibility(View.GONE);
         resultHint.setTextColor(getResources().getColor(R.color.muted, getTheme()));
         resultHint.setText(msg);
         setButtonsEnabled(true);

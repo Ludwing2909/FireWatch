@@ -1,37 +1,47 @@
-# Validación de la revisión 1.5
+# Validación de Bosque Alerta 2.1
 
-Fecha: 19 de octubre de 2026. Aplicación: `pe.edu.bosquealerta`, versionCode 6.
+Fecha: 19 de octubre de 2026. Aplicación `pe.edu.bosquealerta`, versionCode 8.
 
-## Comprobaciones realizadas
+La revisión 2.1 recupera los porcentajes visibles de fuego y humo en fotografías y cámara en vivo. Muestra un decimal y aclara que son puntajes independientes de la imagen completa, sin medir área ni gravedad. Se conservan el modelo, los umbrales y las decisiones de la revisión 2.0. Las siete pruebas instrumentadas descritas más abajo corresponden a esa revisión del clasificador; no se repitieron para este cambio de presentación.
 
-- `assembleDebug` y `lintDebug`: correctos con Microsoft OpenJDK 21, Gradle Wrapper 9.5.0 y Android SDK 36. Sin errores de lint; quedan 13 advertencias de mantenimiento.
-- Runtime de inferencia actualizado a LiteRT 1.4.2 (API Interpreter). Desaparecieron las advertencias de alineación de 16 KB. No se probó ejecución en un dispositivo de páginas de 16 KB.
-- `python herramientas/verificar_entrega.py`: correcto. Modelo incluido en el APK idéntico al exportado; particiones sin duplicados exactos; manifiesto SHA-256 regenerado.
-- `git diff --check`: correcto.
-- Instalación y arranque real en emulador AOSP Android 15, API 35, x86_64, perfil Pixel 6, 1080 × 2400.
-- Pantalla inicial sin solicitud de permisos; permiso de cámara al pulsar su botón. Denegación inicial, explicación posterior y concesión verificadas.
-- Selector de archivos sin permiso global de fotos; selección y decodificación de PNG, inferencia y resultado verificados.
-- Cámara emulada: preview, inferencia continua y cajas visibles, aproximadamente 7 cuadros/s en esta máquina. Cierre mediante botón sin cierre inesperado observado. Esto no mide rendimiento en teléfono.
-- Escala de fuente 200 %: botones crecen y permanecen accesibles mediante desplazamiento.
-- Manifest del APK: CAMERA y permiso interno de receptor no exportado de AndroidX; sin INTERNET ni permisos de lectura global de fotos.
-- Capturas reales en `capturas/redisenio/`.
+## Modelo y datos
 
-## Hallazgo de precisión
+Se sustituyó la CNN binaria por MobileNetV2 alpha 0.5, con pesos ImageNet congelados y cabeza entrenada para puntajes independientes de fuego y humo. Entrada 160 × 160 RGB float32 en [0,1]. El contrato de preprocesamiento y los umbrales se incluyen en el APK y se verifican contra los artefactos de modelos/.
 
-La captura de pantalla usada como entrada de prueba obtuvo **90.4 % de puntaje de fuego**. Es un falso positivo fuera del dominio de entrenamiento; se registró como tal. La cámara emulada también produjo zonas sobre su patrón sintético. Estas pruebas verifican ejecución, no exactitud. No se reentrenó ni se modificó el modelo.
+Se utilizaron 8383 imágenes, con 5864 de entrenamiento, 1258 de validación y 1261 de prueba. La agrupación antes de dividir reduce duplicados muy próximos; no garantiza independencia por incendio ni por evento. Los umbrales se eligieron con validación: fuego 0.875 y humo 0.575. Las referencias del usuario y una imagen próxima se excluyeron del ajuste. Las referencias son regresiones de desarrollo, no un benchmark externo.
 
-## Pendientes
+## Métricas del flujo de galería
 
-Pruebas en teléfono físico, Android 9/13, denegación permanente, recuperación tras muerte del proceso, uso prolongado, TalkBack, orientación y dispositivo de 16 KB. Falta validar el modelo con imágenes externas. Consultar `apk/PRUEBAS_MANUALES.md`.
+Se evaluó la decisión completa, que combina la imagen global con cuatro recortes superpuestos:
 
-Advertencias restantes de lint: DataExtractionRules, DiscouragedApi, LockedOrientationActivity, ObsoleteSdkInt, Overdraw, SetTextI18n, UnusedResources. Incluyen orientación fija heredada, reglas de extracción de datos, recursos no usados, sobrepintado y textos dinámicos pendientes de externalizar. No se presenta lint como libre de advertencias.
+| Señal | Precisión positiva | Recall positivo | F1 positivo | TN FP FN TP |
+|---|---:|---:|---:|---|
+| Fuego | 95.79 % | 95.79 % | 95.79 % | 766 / 20 / 20 / 455 |
+| Humo | 95.04 % | 97.18 % | 96.10 % | 555 / 18 / 10 / 345 |
 
-## Integridad
+Las métricas de humo excluyen etiquetas desconocidas: 928 imágenes de prueba tienen etiqueta de humo utilizable. En 127 amaneceres/atardeceres reservados hubo 3 falsos positivos de fuego y ninguno de humo. No se presenta el problema de atardeceres como completamente resuelto.
 
-APK: `apk/entregables/BosqueAlerta-debug.apk` (42.4 MB).
+La conversión Keras/TFLite se comprobó en todas las imágenes de prueba, con error máximo de 0.00001186 y coincidencia de etiquetas del 100 %. Los resultados completos y las predicciones individuales están en resultados/v2/.
 
-SHA-256: `0c14169461e725698b9dd33c830a916b25a32b5185015203131d8d6f9e6d7c01`.
+## Comprobaciones Android realizadas
 
-Es una compilación de depuración firmada para evaluación académica. La distribución pública requiere firma de producción y las validaciones pendientes.
+- `assembleDebug`, `assembleDebugAndroidTest` y `lintDebug`: correctos. Lint reportó 0 errores y 17 advertencias de mantenimiento.
+- Se conserva el runtime LiteRT 1.4.2 y las funciones de cámara, galería y cámara en vivo.
+- Instalación de app y APK de pruebas en AVD Medium Phone API 36.1, x86_64, iniciado temporalmente en modo de solo lectura.
+- Ejecución real de `AndroidJUnitRunner` en la revisión 2.0 del clasificador: **OK (7 tests)**, duración 21.315 segundos. Evidencia en resultados/v2/android_instrumentation.txt.
+- Pruebas con las tres imágenes del usuario usando Bitmap de Android y el intérprete incorporado: fuego lateral con humo, fuego extenso con humo, atardecer sin fuego ni humo.
+- Prueba adicional con una imagen etiquetada de humo sin llamas; se verificó la categoría de humo sin atribuir fuego.
+- Pruebas de mensajes para evidencia ambigua, humo independiente y señales regionales sin afirmar gravedad.
+- La firma del APK fue verificada y el modelo/contrato incluidos coinciden byte a byte con los activos en modelos/.
+- Manifest de la app: cámara y permiso interno de AndroidX. Sin permiso INTERNET ni lectura global de fotos.
+- Sintaxis Python y de los tres cuadernos comprobada. Manifiesto SHA-256 regenerado con el verificador de entrega.
 
-Referencia de la actualización: [LiteRT para Android, versiones de la API Interpreter](https://developers.google.com/edge/litert/android).
+## Instalación
+
+El APK está en `apk/entregables/BosqueAlerta-debug.apk`. La firma de depuración actual difiere de la del APK 1.5 que estaba en la carpeta al iniciar esta revisión. Si Android rechaza la actualización por conflicto de firmas, desinstalar esa versión anterior y luego instalar la nueva. Esto elimina permisos y cachés locales de esa instalación.
+
+## Pendientes y límites
+
+No se realizaron nuevas pruebas físicas de cámara, rendimiento o consumo de batería en un teléfono. Las cajas en vivo siguen siendo exploración de recortes con suavizado temporal y no un detector de objetos entrenado. No se mide superficie quemada ni gravedad. Niebla, nubes, luces y reflejos requieren más ejemplos y validación externa. Las condiciones del dataset C4 son CC BY-NC-SA 4.0; no tratar el conjunto ampliado como CC0.
+
+La evidencia de la revisión previa se conservó en resultados/v1/VALIDACION_ENTREGA_v1_5.md. El informe principal original corresponde al modelo binario; el anexo vigente es informe/Actualizacion_Bosque_Alerta_v2.md.

@@ -1,0 +1,8 @@
+
+pe.edu.bosquealerta.FireClassifierTest:.......
+
+Time: 21.315
+
+OK (7 tests)
+
+

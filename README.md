@@ -1,5 +1,7 @@
 # Bosque Alerta
 
+> **Revisión 2.0:** la aplicación actual analiza **fuego y humo por separado**, con MobileNetV2 y exploración de cuatro regiones. Consultar `MEJORA_V2.md` para las fuentes, comandos, resultados y limitaciones actuales. Las secciones originales de arquitectura binaria y exactitud 95.17 % que aparecen más abajo documentan la versión 1; no son métricas del modelo actual. `entrenar.py` conserva esa línea base y ya no reemplaza el modelo Android.
+
 Proyecto académico de clasificación de imágenes con una red neuronal convolucional para el caso de incendios forestales. Equipo de tres integrantes. La salida distingue **fuego** y **sin fuego**; no localiza llamas, no estima superficie quemada ni acredita que la escena sea forestal.
 
 ## Organización

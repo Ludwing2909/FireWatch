@@ -1,0 +1,234 @@
+{
+  "version": "2.0",
+  "seed": 142,
+  "size": 160,
+  "architecture": "MobileNetV2 alpha 0.5 ImageNet frozen + GAP/GMP + Dense128 + two sigmoid outputs",
+  "parameters": 1039410,
+  "trainable_parameters": 333186,
+  "epochs": 16,
+  "split_counts": {
+    "train": 5864,
+    "validation": 1258,
+    "test": 1261
+  },
+  "thresholds": [
+    0.8750000000000003,
+    0.5750000000000001
+  ],
+  "validation": {
+    "fuego": {
+      "classification_report": {
+        "0": {
+          "precision": 0.9727385377942999,
+          "recall": 0.9886649874055415,
+          "f1-score": 0.9806371018113679,
+          "support": 794.0
+        },
+        "1": {
+          "precision": 0.9800443458980045,
+          "recall": 0.9525862068965517,
+          "f1-score": 0.966120218579235,
+          "support": 464.0
+        },
+        "accuracy": 0.9753577106518283,
+        "macro avg": {
+          "precision": 0.9763914418461521,
+          "recall": 0.9706255971510467,
+          "f1-score": 0.9733786601953014,
+          "support": 1258.0
+        },
+        "weighted avg": {
+          "precision": 0.9754332078738857,
+          "recall": 0.9753577106518283,
+          "f1-score": 0.9752827029085781,
+          "support": 1258.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          785,
+          9
+        ],
+        [
+          22,
+          442
+        ]
+      ],
+      "roc_auc": 0.9968323851298532,
+      "threshold": 0.8750000000000003,
+      "samples": 1258
+    },
+    "humo": {
+      "classification_report": {
+        "0": {
+          "precision": 0.9848993288590604,
+          "recall": 0.9898819561551433,
+          "f1-score": 0.9873843566021867,
+          "support": 593.0
+        },
+        "1": {
+          "precision": 0.9821958456973294,
+          "recall": 0.9735294117647059,
+          "f1-score": 0.9778434268833087,
+          "support": 340.0
+        },
+        "accuracy": 0.9839228295819936,
+        "macro avg": {
+          "precision": 0.9835475872781949,
+          "recall": 0.9817056839599245,
+          "f1-score": 0.9826138917427477,
+          "support": 933.0
+        },
+        "weighted avg": {
+          "precision": 0.9839141367100909,
+          "recall": 0.9839228295819936,
+          "f1-score": 0.9839074904666899,
+          "support": 933.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          587,
+          6
+        ],
+        [
+          9,
+          331
+        ]
+      ],
+      "roc_auc": 0.9951195317924808,
+      "threshold": 0.5750000000000001,
+      "samples": 933
+    }
+  },
+  "test": {
+    "fuego": {
+      "classification_report": {
+        "0": {
+          "precision": 0.9649122807017544,
+          "recall": 0.9796437659033079,
+          "f1-score": 0.9722222222222222,
+          "support": 786.0
+        },
+        "1": {
+          "precision": 0.9654427645788337,
+          "recall": 0.9410526315789474,
+          "f1-score": 0.9530916844349681,
+          "support": 475.0
+        },
+        "accuracy": 0.9651070578905631,
+        "macro avg": {
+          "precision": 0.9651775226402941,
+          "recall": 0.9603481987411276,
+          "f1-score": 0.9626569533285951,
+          "support": 1261.0
+        },
+        "weighted avg": {
+          "precision": 0.9651121061114394,
+          "recall": 0.9651070578905631,
+          "f1-score": 0.9650160323340812,
+          "support": 1261.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          770,
+          16
+        ],
+        [
+          28,
+          447
+        ]
+      ],
+      "roc_auc": 0.9943752511048614,
+      "threshold": 0.8750000000000003,
+      "samples": 1261
+    },
+    "humo": {
+      "classification_report": {
+        "0": {
+          "precision": 0.9823008849557522,
+          "recall": 0.9685863874345549,
+          "f1-score": 0.9753954305799648,
+          "support": 573.0
+        },
+        "1": {
+          "precision": 0.9504132231404959,
+          "recall": 0.971830985915493,
+          "f1-score": 0.9610027855153204,
+          "support": 355.0
+        },
+        "accuracy": 0.9698275862068966,
+        "macro avg": {
+          "precision": 0.9663570540481241,
+          "recall": 0.9702086866750239,
+          "f1-score": 0.9681991080476426,
+          "support": 928.0
+        },
+        "weighted avg": {
+          "precision": 0.970102479843235,
+          "recall": 0.9698275862068966,
+          "f1-score": 0.9698896234701062,
+          "support": 928.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          555,
+          18
+        ],
+        [
+          10,
+          345
+        ]
+      ],
+      "roc_auc": 0.9957328613917361,
+      "threshold": 0.5750000000000001,
+      "samples": 928
+    }
+  },
+  "test_sunset": {
+    "samples": 127,
+    "fire_false_positives": 3,
+    "smoke_false_positives": 0
+  },
+  "validation_sunset": {
+    "samples": 140,
+    "fire_false_positives": 2,
+    "smoke_false_positives": 0
+  },
+  "tflite_max_absolute_error": 1.1861324310302734e-05,
+  "tflite_label_agreement": 1.0,
+  "user_regression": [
+    {
+      "file": "atardecer.png",
+      "old_fire_score": 0.9999939799308777,
+      "new_fire_score": 1.8297087081009522e-05,
+      "new_smoke_score": 3.0988644539320376e-07,
+      "expected_fire": false,
+      "expected_smoke": false,
+      "fire_result": false,
+      "smoke_result": false
+    },
+    {
+      "file": "fuego_extenso.png",
+      "old_fire_score": 0.9997001886367798,
+      "new_fire_score": 0.9992953538894653,
+      "new_smoke_score": 0.789355993270874,
+      "expected_fire": true,
+      "expected_smoke": true,
+      "fire_result": true,
+      "smoke_result": true
+    },
+    {
+      "file": "fuego_lateral.png",
+      "old_fire_score": 0.3527053892612457,
+      "new_fire_score": 0.9998070001602173,
+      "new_smoke_score": 0.9542780518531799,
+      "expected_fire": true,
+      "expected_smoke": true,
+      "fire_result": true,
+      "smoke_result": true
+    }
+  ]
+}

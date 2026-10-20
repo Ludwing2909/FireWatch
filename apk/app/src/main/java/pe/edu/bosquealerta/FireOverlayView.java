@@ -22,7 +22,7 @@ public class FireOverlayView extends View {
         public float score;
     }
 
-    private static final int GRID_LINES = 4;
+    private static final int GRID_LINES = 2;
 
     private List<Box> boxes = new ArrayList<>();
     private int bmpW;
@@ -138,7 +138,7 @@ public class FireOverlayView extends View {
             canvas.drawLine(cx - ch, cy, cx + ch, cy, crossPaint);
             canvas.drawLine(cx, cy - ch, cx, cy + ch, crossPaint);
 
-            String label = String.format(Locale.getDefault(), "Zona %.0f%%", b.score * 100);
+            String label = "Zona con indicios";
             float textW = labelText.measureText(label);
             float padH = 8 * density;
             float boxH = labelText.getTextSize() + 10 * density;

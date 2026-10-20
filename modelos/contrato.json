@@ -1,17 +1,22 @@
 {
+  "version": "2.0",
   "input": [
     1,
-    96,
-    96,
+    160,
+    160,
     3
   ],
   "dtype": "float32",
-  "normalization": "RGB / 255.0",
-  "resize": "bilinear stretch",
-  "output": "P(fuego), sigmoid",
-  "threshold": 0.5,
-  "labels": {
-    "0": "sin_fuego",
-    "1": "fuego"
-  }
+  "normalization": "RGB / 255.0; rescaling [-1,1] inside model",
+  "outputs": [
+    "fuego",
+    "humo"
+  ],
+  "thresholds": [
+    0.8750000000000003,
+    0.5750000000000001
+  ],
+  "uncertain_margin": 0.12,
+  "scope": "independent visual scores, not severity or calibrated probabilities",
+  "regional_analysis": "four overlapping 65 percent crops, experimental; not used for official global test metrics"
 }

@@ -1,12 +1,21 @@
 {
   "dataset/procedencia.json": "5cb9ac15a995f34afb15bf37e62e26dedbfab72e591b60e69b923a6a8432780f",
-  "modelos/bosque_alerta.keras": "4eb2f9323ec4aa27819a0cfd1ea1a6b558bb9f5189847feea9d5725083ec9f79",
-  "modelos/bosque_alerta.tflite": "f045f36702ba7c963e5644282551990cffa6a6b2e7ff23ac96729bbf35f85c3c",
+  "modelos/bosque_alerta.keras": "4396546f2dadc04869553d415bd7749138354b6620fc2bdcb1f678640432bfcd",
+  "modelos/bosque_alerta.tflite": "4571003f22645d22b882c1c7be0a045102cc77d4555c96dd0da71e0d937f2aac",
   "resultados/metricas.json": "a3571e2740c17192c77a517cf86fde2604f025e1e0f8827249c8b36ae86ed332",
   "resultados/particiones.csv": "335a200c58f8c75c01a8d067f2dcc477adcc2bbe774251f0fee150d3ca192f65",
   "cuadernos/01_exploracion.ipynb": "d1050b56a9d3e9c88de15ad59c4dcb123f6545b2a4f53b6c437838fa0006886b",
   "cuadernos/02_entrenamiento_evaluacion.ipynb": "549723bfeba33354e82ba6320ed2bafb9060b00c69d97f4edebaeec335d93ae1",
-  "apk/entregables/BosqueAlerta-debug.apk": "0c14169461e725698b9dd33c830a916b25a32b5185015203131d8d6f9e6d7c01",
-  "informe/Informe_Bosque_Alerta.pdf": "8ab097933cfac626c189571734cd6e07e07b3da69c8c44348a15ca47b98be696",
-  "informe/Informe_Bosque_Alerta.md": "053501883dd1c4ffbf6ecb175168e41a5978881be3605328bf0d14aa78f30149"
+  "apk/entregables/BosqueAlerta-debug.apk": "6a4e3939810f6ba166b402e89a10dc33333bbc2be7fc2be0ee96d03e6864562c",
+  "informe/Informe_Bosque_Alerta.pdf": "f7521d5669dd193cfe8e6a1ce99d02b01581d59808f21afb0ac33d9364ec2d85",
+  "informe/Informe_Bosque_Alerta.md": "053501883dd1c4ffbf6ecb175168e41a5978881be3605328bf0d14aa78f30149",
+  "MEJORA_V2.md": "31b6ac172c53f6c90542da3c5ee3ed7a1e9ff8c8db063efe7ef5453e964e0616",
+  "modelos/contrato.json": "a8885b3f2a8b0ef147ca1816c0df5e374146d1312cc383d5cc707ff66f396604",
+  "resultados/v2/metricas.json": "a7f23167806c76022a87fb5586532091e84d26fc4a83e7e7776b8ebf483146ec",
+  "resultados/v2/evaluacion_regiones.json": "9c0c66b8eb4835a20cc1a3d9d3b0dfdbef3385c337eaef8f600117ec0ee8faec",
+  "resultados/v2/particiones.csv": "3c74ebe0d36e9b87b8c3ecd083645b378d407998fe523507ff5da1d6d7a28382",
+  "cuadernos/03_mejora_fuego_humo.ipynb": "fb0983fd08cea7fe8bbd38ba71bda0db889fb5b8e61767c09bfe8bceaff59100",
+  "informe/Actualizacion_Bosque_Alerta_v2.md": "b3cc83cf53faaf48016df35a74654864600204cf9e0c1737ee4a6bc085611db7",
+  "VALIDACION_ENTREGA.md": "78df588dafa965d692538ba8848f783a3d1efa551038195fc748d828f82bf3c8",
+  "resultados/v2/android_instrumentation.txt": "9bfb45df4f7d7860745dcd3aa64d6fe54a784f917ce3e63d9840d6330633ca76"
 }

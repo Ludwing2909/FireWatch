@@ -51,8 +51,8 @@ def main():
     tf.config.experimental.enable_op_determinism()
     tf.config.threading.set_intra_op_parallelism_threads(4)
     tf.config.threading.set_inter_op_parallelism_threads(2)
-    out = ROOT / 'resultados'
-    out.mkdir(exist_ok=True)
+    out = ROOT / 'resultados/v1_reentrenamiento'
+    out.mkdir(parents=True,exist_ok=True)
     records, duplicates, invalid = load_data()
     x = np.stack([r[1] for r in records])
     y = np.array([r[0]['label'] for r in records])
@@ -80,8 +80,8 @@ def main():
         epochs=args.epochs, class_weight=weights, callbacks=[
             tf.keras.callbacks.EarlyStopping(monitor='val_loss',patience=5,restore_best_weights=True),
             tf.keras.callbacks.CSVLogger(str(out/'historial.csv'))], verbose=2)
-    models = ROOT / 'modelos'
-    models.mkdir(exist_ok=True)
+    models = ROOT / 'modelos/v1_reentrenamiento'
+    models.mkdir(parents=True,exist_ok=True)
     model.save(models/'bosque_alerta.keras')
     probabilities = model.predict(x[test], verbose=0).ravel()
     predictions = (probabilities >= .5).astype(int)
@@ -112,9 +112,7 @@ def main():
     with (out/'predicciones_test.csv').open('w',newline='',encoding='utf-8') as f:
         w=csv.writer(f); w.writerow(['path','actual','probability_fire','predicted'])
         w.writerows((records[i][0]['path'],int(y[i]),float(p),int(v)) for i,p,v in zip(test,probabilities,predictions))
-    assets=ROOT/'apk/app/src/main/assets'
-    assets.mkdir(parents=True,exist_ok=True)
-    shutil.copy2(models/'bosque_alerta.tflite', assets/'bosque_alerta.tflite')
+    # La versión binaria es una línea base histórica; no reemplaza el modelo Android v2.
     (models/'contrato.json').write_text(json.dumps({'input':[1,SIZE,SIZE,3], 'dtype':'float32','normalization':'RGB / 255.0',
        'resize':'bilinear stretch','output':'P(fuego), sigmoid','threshold':.5,'labels':{'0':'sin_fuego','1':'fuego'}},indent=2),encoding='utf-8')
     import matplotlib

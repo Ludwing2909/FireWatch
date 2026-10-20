@@ -1,0 +1,18 @@
+{
+  "purpose": "Regression only, excluded from fit and threshold selection",
+  "cases": {
+    "fuego_lateral.png": {
+      "fire": true,
+      "smoke": true
+    },
+    "fuego_extenso.png": {
+      "fire": true,
+      "smoke": true
+    },
+    "atardecer.png": {
+      "fire": false,
+      "smoke": false
+    }
+  },
+  "source": "Images supplied by the user on 2026-10-19"
+}

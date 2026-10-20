@@ -35,10 +35,8 @@ import java.util.concurrent.Executors;
 /** Modo en vivo: analiza la cámara por zonas y sigue las zonas con fuego. */
 public class LiveActivity extends ComponentActivity {
     private static final String TAG = "FireLive";
-    private static final float FIRE_THRESHOLD = 0.5f;
-    private static final float ZONE_THRESHOLD = 0.6f;
-    private static final int GRID = 4;
-    private static final long MIN_INTERVAL_MS = 120;
+    private static final int GRID = 2;
+    private static final long MIN_INTERVAL_MS = 400;
 
     private PreviewView previewView;
     private FireOverlayView overlay;
@@ -134,17 +132,19 @@ public class LiveActivity extends ComponentActivity {
             if (rot != 0) {
                 Matrix m = new Matrix();
                 m.postRotate(rot);
-                bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), m, true);
+                Bitmap original = bmp;
+                bmp = Bitmap.createBitmap(original, 0, 0, original.getWidth(), original.getHeight(), m, true);
+                if (bmp != original) original.recycle();
             }
 
-            float global = model.score(bmp);
+            float[] global = model.scores(bmp);
             float[] cells = new float[GRID * GRID];
             int tw = bmp.getWidth() / GRID;
             int th = bmp.getHeight() / GRID;
             for (int r = 0; r < GRID; r++) {
                 for (int c = 0; c < GRID; c++) {
                     Bitmap tile = Bitmap.createBitmap(bmp, c * tw, r * th, tw, th);
-                    cells[r * GRID + c] = model.score(tile);
+                    cells[r * GRID + c] = model.scores(tile)[0];
                     tile.recycle();
                 }
             }
@@ -160,7 +160,8 @@ public class LiveActivity extends ComponentActivity {
                 lastFpsAt = now;
             }
 
-            final float g = global;
+            final float g = global[0];
+            final float smoke = global[1];
             final float f = fps;
             final int w = bmp.getWidth();
             final int h = bmp.getHeight();
@@ -170,17 +171,23 @@ public class LiveActivity extends ComponentActivity {
             runOnUiThread(() -> {
                 if (isFinishing() || isDestroyed()) return;
                 overlay.setBoxes(follow, w, h);
-                boolean fire = g >= FIRE_THRESHOLD || zoneCount > 0;
+                boolean fire = g >= model.fireThreshold() || zoneCount > 0;
                 if (fire) {
-                    statusChip.setText(String.format(Locale.getDefault(), "Exploración · %d zona%s", zoneCount, zoneCount == 1 ? "" : "s"));
+                    statusChip.setText(smoke >= model.smokeThreshold() ? "Indicios de fuego y humo" : "Indicios de fuego");
                     statusChip.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF9D3618));
+                } else if (smoke >= model.smokeThreshold()) {
+                    statusChip.setText("Posible humo · revisar la escena");
+                    statusChip.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF856015));
+                } else if (g >= model.fireThreshold() - .12f || smoke >= model.smokeThreshold() - .12f) {
+                    statusChip.setText("Resultado no concluyente");
+                    statusChip.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF856015));
                 } else {
-                    statusChip.setText(String.format(Locale.getDefault(), "Sin fuego · puntaje fuego %.0f%%", g * 100));
+                    statusChip.setText("Sin indicios claros en este cuadro");
                     statusChip.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF006A63));
                 }
-                stats.setText(String.format(Locale.getDefault(),
-                        "Puntaje global de fuego: %.0f %% · %.1f cuadros/s", g * 100, f));
+                stats.setText(getString(R.string.live_model_scores, g * 100, smoke * 100, f));
             });
+            bmp.recycle();
         } catch (Exception e) {
             Log.w(TAG, "Cuadro omitido: " + e);
         } finally {
@@ -255,7 +262,7 @@ public class LiveActivity extends ComponentActivity {
         boolean[] visited = new boolean[GRID * GRID];
         List<float[]> out = new ArrayList<>();
         for (int idx = 0; idx < cells.length; idx++) {
-            if (visited[idx] || cells[idx] < ZONE_THRESHOLD) continue;
+            if (visited[idx] || cells[idx] < Math.min(.95f, model.fireThreshold() + .10f)) continue;
             int r0 = idx / GRID;
             int c0 = idx % GRID;
             List<Integer> stack = new ArrayList<>();
@@ -278,7 +285,7 @@ public class LiveActivity extends ComponentActivity {
                         int nc = c + dc;
                         if (nr < 0 || nr >= GRID || nc < 0 || nc >= GRID) continue;
                         int ni = nr * GRID + nc;
-                        if (visited[ni] || cells[ni] < ZONE_THRESHOLD) continue;
+                        if (visited[ni] || cells[ni] < Math.min(.95f, model.fireThreshold() + .10f)) continue;
                         visited[ni] = true;
                         stack.add(ni);
                     }

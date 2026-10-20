@@ -8,7 +8,9 @@ def main():
     excluded={'.venv','.tools','.git','__pycache__','.gradle','build','original','entrega'}
     with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED,compresslevel=4) as z:
         for folder,dirs,files in os.walk(ROOT):
-            dirs[:]=[d for d in dirs if d not in excluded]
+            # Conservar imágenes extraídas cuando ya no existe su ZIP de origen.
+            dirs[:]=[d for d in dirs if d not in excluded or
+                     (d=='original' and not any(Path(folder).glob('*.zip')))]
             for name in files:
                 path=Path(folder)/name
                 rel=path.relative_to(ROOT)

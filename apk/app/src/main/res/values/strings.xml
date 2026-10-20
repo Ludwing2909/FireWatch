@@ -1,11 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+    <string name="model_scores">Fuego: %1$.1f %%\nHumo: %2$.1f %%</string>
+    <string name="model_scores_caption">Puntajes independientes de la imagen completa. No miden área ni gravedad y no representan certeza.</string>
+    <string name="model_result_explanation">%1$s\n\n%2$s</string>
+    <string name="live_model_scores">Fuego: %1$.1f %% · Humo: %2$.1f %%\nPuntajes globales · %3$.1f cuadros/s\nNo miden área ni gravedad ni representan certeza.</string>
     <string name="activity_main_contentdescription_1">Bosque Alerta, bosque y llama bajo un escudo</string>
     <string name="activity_main_text_2">Bosque Alerta</string>
     <string name="activity_main_text_3">OBSERVA · APRENDE · CUIDA</string>
     <string name="activity_main_text_4">INTELIGENCIA ARTIFICIAL EN TU DISPOSITIVO</string>
     <string name="activity_main_text_5">Una mirada más para cuidar el bosque.</string>
-    <string name="activity_main_text_6">Analiza una fotografía e identifica indicios visuales de fuego.</string>
+    <string name="activity_main_text_6">Explora señales de fuego y humo, incluso en zonas pequeñas de una fotografía.</string>
     <string name="activity_main_text_7">Sin conexión  ·  Tus imágenes se quedan contigo</string>
     <string name="activity_main_text_8">Explora tu imagen</string>
     <string name="activity_main_contentdescription_9">Fotografía seleccionada para analizar</string>
@@ -20,7 +24,7 @@
     <string name="activity_main_text_18">Explora el análisis de la cámara. Las zonas resaltadas son estimaciones experimentales.</string>
     <string name="activity_main_text_19">Abrir cámara en vivo</string>
     <string name="activity_main_text_20">Conoce el alcance</string>
-    <string name="activity_main_text_21">Prototipo académico de clasificación: fuego / sin fuego. Puede equivocarse. El resultado no confirma que un entorno sea seguro ni sustituye una alerta oficial.</string>
+    <string name="activity_main_text_21">La CNN analiza fuego y humo por separado. “Localizado” describe señales en algunas zonas de la foto; no mide la gravedad de un incendio. Puede equivocarse y no sustituye una alerta oficial.</string>
     <string name="activity_main_text_22">Cómo funciona y privacidad</string>
     <string name="activity_main_text_23">BOSQUE ALERTA  /  PROYECTO ACADÉMICO</string>
     <string name="activity_live_text_1">ANÁLISIS EN DIRECTO</string>

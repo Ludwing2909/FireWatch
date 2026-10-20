@@ -8,6 +8,9 @@ apk/**/build/
 dataset/original/
 dataset/*.zip
 dataset/*.part
+dataset/complementario/**/original/
+dataset/complementario/**/*.zip
+dataset/complementario/**/*.part
 
 entrega/
 *.jks

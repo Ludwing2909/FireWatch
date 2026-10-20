@@ -1,5 +1,7 @@
 # Cómo correr FireWatch (Bosque Alerta) y obtener la APK
 
+> **Actualización 2.0:** consultar `MEJORA_V2.md`. La app actual usa entrada 160×160 y dos salidas independientes (fuego y humo). Para reentrenar usar `entrenamiento/entrenar_v2.py`, evaluar con `evaluar_regiones_v2.py` y activar con `herramientas/activar_modelo_v2.py`. Las referencias a 96×96, CNN desde cero y clases binarias de esta guía describen la versión histórica 1. El script antiguo ya no sustituye el modelo Android actual.
+
 > **Proyecto:** clasificador de imágenes (fuego / sin fuego) con CNN + TensorFlow,
 > desplegado como app **Android nativa en Java** con TensorFlow Lite.
 > **No usa** Flutter, React Native, ni Capacitor. **No necesita backend ni Internet** para funcionar.
